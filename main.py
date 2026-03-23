@@ -2,7 +2,7 @@ import argparse
 import sys
 import os
 from dotenv import load_dotenv
-from config import MODEL, MAX_ITERATIONS, WORKING_DIRECTORY
+from config import MODEL, MAX_ITERATIONS, WORKING_DIRECTORY, SYSTEM_PROMPT
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -21,21 +21,6 @@ from functions.call_function import call_function
 
 def main():
     print('Running coding agent...')
-
-    system_prompt = """
-You are a helpful AI coding agent.
-
-When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
-
-- List files and directories
-- Read file contents
-- Execute Python files with optional arguments
-- Write or overwrite files
-
-All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
-
-Modifying tests (which are located with "tests" directories) is prohibited.
-"""
 
     # Access User Prompt
     parser = argparse.ArgumentParser(description="Chatbot")
@@ -61,7 +46,7 @@ Modifying tests (which are located with "tests" directories) is prohibited.
 
     config = types.GenerateContentConfig(
         tools=[available_functions],
-        system_instruction=system_prompt,
+        system_instruction=SYSTEM_PROMPT,
     )
 
     if verbose:
