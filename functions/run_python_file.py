@@ -2,7 +2,9 @@ import os
 import subprocess
 from config import TIMEOUT
 
-def run_python_file(working_directory, file_path, args=[]):
+def run_python_file(working_directory, file_path, args=None):
+    if args is None:
+        args = []
     # Get file info
     working_dir_abs = os.path.abspath(working_directory)
     file_path_abs = os.path.normpath(os.path.join(working_dir_abs, file_path))
@@ -17,7 +19,7 @@ def run_python_file(working_directory, file_path, args=[]):
     if not file_path.endswith('.py'):
         return f'Error: "{file_path}" is not a Python file'
     
-    command = ["python", file_path_abs]
+    command = ["python3", file_path_abs]
     command.extend(args)
 
     try: 
@@ -28,15 +30,19 @@ def run_python_file(working_directory, file_path, args=[]):
             capture_output=True,
             text=True
         )
-        ret = f"""
+
+        ret = ""
+
+        if output.returncode != 0:
+            ret += f'Process exited with code {output.returncode}\n'
+
+        if output.stdout == "" and output.stderr == "":
+            ret += 'No output produced:\n'
+
+        ret += f"""
 STDOUT: {output.stdout}
 STDERR: {output.stderr}
 """
-        if output.stdout == "" and output.stderr == "":
-            ret = f'No output produced:\n' + ret
-
-        if output.returncode != 0:
-            ret = f'Process exited with code {output.returncode}\n' + ret
 
         return ret
 

@@ -4,7 +4,7 @@ def get_files_info(working_directory, directory="."):
     working_dir_abs = os.path.abspath(working_directory)
     target_dir = os.path.normpath(os.path.join(working_dir_abs, directory))
 
-    if not os.path.isdir(working_dir_abs):
+    if not os.path.isdir(target_dir):
         return f'Error: "{directory}" is not a directory'
 
     # Will be True or False
@@ -14,10 +14,6 @@ def get_files_info(working_directory, directory="."):
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
     
     ret = []
-    
-    directory_abs = os.path.abspath(directory)
-    print(directory_abs)
-    
 
     for content in os.listdir(target_dir):
         content_path = os.path.join(target_dir, content)
