@@ -1,5 +1,6 @@
 import os
 import subprocess
+from config import TIMEOUT
 
 def run_python_file(working_directory, file_path, args=[]):
     # Get file info
@@ -23,7 +24,7 @@ def run_python_file(working_directory, file_path, args=[]):
         output = subprocess.run(
             command,
             cwd=working_dir_abs,
-            timeout=30,
+            timeout=TIMEOUT,
             capture_output=True,
             text=True
         )
