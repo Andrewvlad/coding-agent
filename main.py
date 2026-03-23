@@ -64,6 +64,9 @@ Modifying tests (which are located with "tests" directories) is prohibited.
         system_instruction=system_prompt,
     )
 
+    if verbose:
+        print('Prompt: ', prompt)
+
     for _ in range(MAX_ITERATIONS):
 
         try:
@@ -73,18 +76,18 @@ Modifying tests (which are located with "tests" directories) is prohibited.
                 config=config,
             )
         except ClientError as e:
-            return f'Ran out of API tokens {e}'
+            print(f'Error: Ran out of API tokens {e}')
+            sys.exit(1)
         except Exception as e:
-            return f'Error: calling model {e}'
-
+            print(f'Error: calling model {e}')
+            sys.exit(1)
         
         if response is None or response.usage_metadata is None:
             print('Response error:')
             print(response)
             return
 
-        if args.info:
-            print('Prompt: ', prompt)
+        if verbose:
             print('Prompt tokens: ', response.usage_metadata.prompt_token_count)
             print('Response tokens: ', response.usage_metadata.candidates_token_count)
 
