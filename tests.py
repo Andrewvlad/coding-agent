@@ -59,6 +59,10 @@ def test_reject_absolute_path_write():
     result = write_file(WORKING_DIR, "/tmp/temp.txt", "this should not be allowed")
     assert result.startswith("Error")
 
+def test_reject_write_in_tests_directory():
+    result = write_file(WORKING_DIR, "tests/foo.py", "this should not be allowed")
+    assert result.startswith("Error")
+
 def cleanup_write_tests():
     for path in ["calculator/lorem.txt", "calculator/pkg/morelorem.txt"]:
         try:
@@ -78,7 +82,7 @@ def test_run_with_args():
     assert "STDOUT" in result
 
 def test_run_tests():
-    result = run_python_file(WORKING_DIR, "tests.py")
+    result = run_python_file(WORKING_DIR, "tests/calculator.py")
     assert "STDOUT" in result
 
 def test_reject_parent_traversal_run():

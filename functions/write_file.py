@@ -12,6 +12,10 @@ def write_file(working_directory, file_path, content):
     if os.path.isdir(file_path_abs):
         return f'Error: Cannot write to "{file_path}" as it is a directory'
 
+    path_parts = os.path.normpath(file_path).split(os.sep)
+    if "tests" in path_parts[:-1]:
+        return f'Error: Cannot write to "{file_path}" as it is inside a tests directory'
+
     
     # Fill any non-existing paths
     parent_dir = os.path.dirname(file_path_abs)
@@ -34,7 +38,7 @@ from google.genai import types
 
 schema_write_file = types.FunctionDeclaration(
     name="write_file",
-    description="Overwrites an existing file or writes a new file if it doesn't exist (and creates required parent dirs safely), constrained to the working directory.",
+    description="Overwrites an existing file or writes a new file if it doesn't exist (and creates required parent dirs safely), constrained to the working directory. Cannot edit files within a \"tests\" directory.",
     parameters=types.Schema(
         required=["file_path"],
         type=types.Type.OBJECT,
