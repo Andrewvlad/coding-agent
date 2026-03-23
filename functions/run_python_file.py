@@ -9,7 +9,7 @@ def run_python_file(working_directory, file_path, args=[]):
 
     valid_target_dir = os.path.commonpath([working_dir_abs, file_path_abs]) == working_dir_abs
     if not valid_target_dir:
-        return f'Error: Cannot excecute "{file_path}" as it is outside the permitted working directory'
+        return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
 
     if not os.path.isfile(file_path_abs):
         return f'Error: "{file_path}" does not exist or is not a regular file'
@@ -41,7 +41,7 @@ STDERR: {output.stderr}
         return ret
 
     except Exception as e:
-        return f'Excecution failed: {file_path}, {e}'
+        return f'Execution failed: {file_path}, {e}'
 
 # Info for the agent on how the function works
 
