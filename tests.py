@@ -3,8 +3,9 @@ from functions.get_files_info import get_files_info
 from functions.get_file_content import get_file_content
 from functions.write_file import write_file
 from functions.run_python_file import run_python_file
+from config import WORKING_DIRECTORY
 
-WORKING_DIR = "calculator"
+WORKING_DIR = WORKING_DIRECTORY
 
 
 # --- get_files_info ---
@@ -64,7 +65,7 @@ def test_reject_write_in_tests_directory():
     assert result.startswith("Error")
 
 def cleanup_write_tests():
-    for path in ["calculator/lorem.txt", "calculator/pkg/morelorem.txt"]:
+    for path in [f"{WORKING_DIR}/lorem.txt", f"{WORKING_DIR}/pkg/morelorem.txt"]:
         try:
             os.remove(path)
         except FileNotFoundError:

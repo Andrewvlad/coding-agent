@@ -2,6 +2,7 @@ import argparse
 import sys
 import os
 from dotenv import load_dotenv
+from config import MODEL, MAX_ITERATIONS, WORKING_DIRECTORY
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -20,8 +21,6 @@ from functions.call_function import call_function
 
 def main():
     print('Running coding agent...')
-
-    MAX_ITERATIONS = 20
 
     system_prompt = """
 You are a helpful AI coding agent.
@@ -69,7 +68,7 @@ Modifying tests (which are located with "tests" directories) is prohibited.
 
         try:
             response = client.models.generate_content(
-                model='gemini-2.5-flash',
+                model=MODEL,
                 contents=messages,
                 config=config,
             )
