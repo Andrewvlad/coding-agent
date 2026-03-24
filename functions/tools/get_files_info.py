@@ -1,26 +1,22 @@
 import os
 
-def get_files_info(working_directory, directory="."):
-    working_dir_abs = os.path.abspath(working_directory)
-    target_dir = os.path.normpath(os.path.join(working_dir_abs, directory))
+from functions.util.check_path import check_path
 
-    if not os.path.isdir(target_dir):
+def get_files_info(working_directory, directory="."):
+    try:
+        path_abs = check_path(working_directory, directory)
+    except Exception as e:
+        return str(e)
+
+    if not os.path.isdir(path_abs):
         return f'Error: "{directory}" is not a directory'
 
-    # Will be True or False
-    valid_target_dir = os.path.commonpath([working_dir_abs, target_dir]) == working_dir_abs
-
-    if not valid_target_dir:
-        return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
-    
     ret = []
 
-    for content in os.listdir(target_dir):
-        content_path = os.path.join(target_dir, content)
-        if os.path.isfile(content_path) or os.path.isdir(content_path):
-            is_dir = os.path.isdir(content_path)
-            size = os.path.getsize(content_path)
-            ret.append(f'- {content}: file_size={size}, is_dir={is_dir}')
+    for entry in os.scandir(path_abs):
+        if entry.is_file() or entry.is_dir():
+            size = entry.stat().st_size
+            ret.append(f'- {entry.name}: file_size={size}, is_dir={entry.is_dir()}')
 
     return '\n'.join(ret)
 

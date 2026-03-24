@@ -2,30 +2,30 @@ import os
 import subprocess
 from config import TIMEOUT
 
+from functions.util.check_path import check_path
+
 def run_python_file(working_directory, file_path, args=None):
     if args is None:
         args = []
-    # Get file info
-    working_dir_abs = os.path.abspath(working_directory)
-    file_path_abs = os.path.normpath(os.path.join(working_dir_abs, file_path))
 
-    valid_target_dir = os.path.commonpath([working_dir_abs, file_path_abs]) == working_dir_abs
-    if not valid_target_dir:
-        return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
+    try:
+        path_abs = check_path(working_directory, file_path)
+    except Exception as e:
+        return str(e)
 
-    if not os.path.isfile(file_path_abs):
+    if not os.path.isfile(path_abs):
         return f'Error: "{file_path}" does not exist or is not a regular file'
 
     if not file_path.endswith('.py'):
         return f'Error: "{file_path}" is not a Python file'
     
-    command = ["python3", file_path_abs]
+    command = ["python3", path_abs]
     command.extend(args)
 
     try: 
         output = subprocess.run(
             command,
-            cwd=working_dir_abs,
+            cwd=os.path.abspath(working_directory),
             timeout=TIMEOUT,
             capture_output=True,
             text=True
