@@ -2,7 +2,7 @@ import os
 
 from functions.util.check_path import check_path
 
-def write_file(working_directory, file_path, content):
+def write_file(working_directory: str, file_path: str, content: str) -> str:
     try:
         path_abs = check_path(working_directory, file_path)
     except Exception as e:
@@ -15,7 +15,6 @@ def write_file(working_directory, file_path, content):
     if "tests" in path_parts[:-1]:
         return f'Error: Cannot write to "{file_path}" as it is inside a tests directory'
 
-    
     # Fill any non-existing paths
     parent_dir = os.path.dirname(path_abs)
     try:
@@ -50,7 +49,6 @@ schema_write_file = types.FunctionDeclaration(
                 type=types.Type.STRING,
                 description="The contents to write to the file as a string.",
             ),
- 
         },
     ),
 )

@@ -1,6 +1,6 @@
 import os
 
-def check_path(working_directory, path='.'):
+def check_path(working_directory: str, path: str = '.') -> str:
     working_dir_abs = os.path.abspath(working_directory)
     path_abs = os.path.normpath(os.path.join(working_dir_abs, path))
 

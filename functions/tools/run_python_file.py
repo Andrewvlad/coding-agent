@@ -4,7 +4,7 @@ from config import TIMEOUT
 
 from functions.util.check_path import check_path
 
-def run_python_file(working_directory, file_path, args=None):
+def run_python_file(working_directory: str, file_path: str, args: list[str] | None = None) -> str:
     if args is None:
         args = []
 
@@ -18,11 +18,11 @@ def run_python_file(working_directory, file_path, args=None):
 
     if not file_path.endswith('.py'):
         return f'Error: "{file_path}" is not a Python file'
-    
+
     command = ["python3", path_abs]
     command.extend(args)
 
-    try: 
+    try:
         output = subprocess.run(
             command,
             cwd=os.path.abspath(working_directory),
@@ -69,7 +69,6 @@ schema_run_python_file = types.FunctionDeclaration(
                 description="An optional array of strings to be used as the CLI args for the Python file.",
                 items=types.Schema(
                     type=types.Type.STRING,
-                
                 )
             ),
         },

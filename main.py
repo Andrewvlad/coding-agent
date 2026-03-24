@@ -2,7 +2,7 @@ import argparse
 import sys
 import os
 from dotenv import load_dotenv
-from config import MODEL, MAX_ITERATIONS, WORKING_DIRECTORY, SYSTEM_PROMPT
+from config import MODEL, MAX_ITERATIONS, SYSTEM_PROMPT
 
 from google import genai
 from google.genai import types
@@ -15,7 +15,7 @@ from functions.tools.write_file import schema_write_file
 from functions.tools.run_python_file import schema_run_python_file
 
 
-def parse_args():
+def parse_args() -> tuple[str, bool]:
     parser = argparse.ArgumentParser(description="Chatbot")
     parser.add_argument("user_prompt", type=str, help="User prompt")
     parser.add_argument("--info", action="store_true", help="Enable info data output")
@@ -23,7 +23,7 @@ def parse_args():
     return args.user_prompt, args.info
 
 
-def process_function_calls(response, messages, verbose):
+def process_function_calls(response: types.GenerateContentResponse, messages: list, verbose: bool) -> bool:
     function_responses = []
 
     if response.candidates:
@@ -59,7 +59,7 @@ def process_function_calls(response, messages, verbose):
         return False
 
 
-def run_agent(prompt, verbose):
+def run_agent(prompt: str, verbose: bool) -> None:
     load_dotenv()
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
@@ -108,7 +108,7 @@ def run_agent(prompt, verbose):
     sys.exit(1)
 
 
-def main():
+def main() -> None:
     print('Running coding agent...')
     prompt, verbose = parse_args()
 

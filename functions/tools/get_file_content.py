@@ -2,14 +2,14 @@ import os
 
 from functions.util.check_path import check_path
 
-def get_file_content(working_directory, file_path):
+def get_file_content(working_directory: str, file_path: str) -> str:
     MAX_CHARS = 10000
 
     try:
         path_abs = check_path(working_directory, file_path)
     except Exception as e:
         return str(e)
-    
+
     if not os.path.isfile(path_abs):
         return f'Error: File not found or is not a regular file: "{file_path}"'
 

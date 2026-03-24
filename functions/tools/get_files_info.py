@@ -2,7 +2,7 @@ import os
 
 from functions.util.check_path import check_path
 
-def get_files_info(working_directory, directory="."):
+def get_files_info(working_directory: str, directory: str = ".") -> str:
     try:
         path_abs = check_path(working_directory, directory)
     except Exception as e:
