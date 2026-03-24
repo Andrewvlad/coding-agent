@@ -30,7 +30,7 @@ uv run main.py "your prompt here" --info   # verbose: show token counts and func
 uv run tests.py
 ```
 
-## Example:
+## Example
 Modify `calculator.py` to have a higher precedence than other operations.
 Then, run:
 ```bash
@@ -48,7 +48,8 @@ Each iteration:
 4. Appends results to the message history
 5. And loops until the model returns a final text response
 
-Each file within `/function` exports a function the agent has access to, and a `schema_` describing how the function works to the agent.
+Each file within `/functions/tools` exports a tool the agent has access to,
+and a `schema_` describing how the too works to the agent.
 
 | Tool | Description |
 |------|-------------|
@@ -57,8 +58,8 @@ Each file within `/function` exports a function the agent has access to, and a `
 | `write_file` | Write or overwrite a file |
 | `run_python_file` | Execute a Python file with optional args |
 
-While `call_function.py` is not exposed to the agent,
+While `call_function.py` in `/functions` is not exposed to the agent,
 it is used to dispatch commands by name,
-and injects `working_directory="./calculator"` before calling other functions to ensure scoping.
+and injects `working_directory="./calculator"` before calling tools to ensure scoping.
 
 `calculator/` exists as code for the agent to use as a sandbox to work on top of.

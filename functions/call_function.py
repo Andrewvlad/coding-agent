@@ -1,10 +1,10 @@
 from google.genai import types
 from config import WORKING_DIRECTORY
 
-from functions.get_files_info import get_files_info
-from functions.get_file_content import get_file_content
-from functions.write_file import write_file
-from functions.run_python_file import run_python_file
+from functions.tools.get_files_info import get_files_info
+from functions.tools.get_file_content import get_file_content
+from functions.tools.write_file import write_file
+from functions.tools.run_python_file import run_python_file
 
 function_map = {
     "get_files_info"  : get_files_info,
