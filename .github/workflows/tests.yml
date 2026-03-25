@@ -12,7 +12,10 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --extra lint
+
+      - name: Lint
+        run: uv run flake8
 
       - name: Run tests
         run: uv run tests.py

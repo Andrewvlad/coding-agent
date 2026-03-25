@@ -1,0 +1,8 @@
+[flake8]
+exclude = .venv, calculator
+# Ignored rules reflect intentional style choices already present in the codebase:
+#   E203 - whitespace before ':' (used for dict/function alignment)
+#   E302/E305 - blank lines around functions (codebase uses 1, not 2)
+#   E402 - module-level import not at top (schemas are defined after functions)
+#   E501 - line too long (no enforced line length)
+extend-ignore = E203, E302, E305, E402, E501
