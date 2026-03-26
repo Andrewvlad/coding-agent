@@ -13,6 +13,7 @@ from functions.tools.get_files_info import schema_get_files_info
 from functions.tools.get_file_content import schema_get_file_content
 from functions.tools.write_file import schema_write_file
 from functions.tools.run_python_file import schema_run_python_file
+from functions.tools.run_tests import schema_run_tests
 
 
 def parse_args() -> tuple[str, bool]:
@@ -69,6 +70,7 @@ def run_agent(prompt: str, verbose: bool) -> None:
             schema_get_file_content,
             schema_write_file,
             schema_run_python_file,
+            schema_run_tests,
         ],
     )
     config = types.GenerateContentConfig(

@@ -8,6 +8,7 @@ This is just a toy project to demonstrate how coding models work, and not meant 
 Requires Python 3.12+ and [uv](https://github.com/astral-sh/uv).
 
 1. Install dependencies:
+
    ```bash
    uv sync
    ```
@@ -27,39 +28,46 @@ uv run main.py "your prompt here" --info   # verbose: show token counts and func
 ### Tests
 
 ```bash
-uv run tests.py
+uv run pytest
 ```
 
 ## Example
-Modify `calculator.py` to have a higher precedence than other operations.
+
+Modify `calculator.py` so that addition has higher precedence than other operations.
 Then, run:
+
 ```bash
 uv run main.py "There is a bug in the calculator.py function that needs to be fixed. For some reason, addition is happening before other operations, causing incorrect responses."
 ```
+
 The agent should be able to solve this easily.
 
 ## Overview
 
 `main.py` runs the agentic loop (up to 20 iterations).
-Each iteration: 
+Each iteration:
+
 1. Calls the Gemini model
 2. Collects function calls
 3. Executes them
 4. Appends results to the message history
-5. And loops until the model returns a final text response
+5. Loops until the model returns a final text response
 
 Each file within `/functions/tools` exports a tool the agent has access to,
-and a `schema_` describing how the too works to the agent.
+and a `schema_` describing how the tool works to the agent.
 
-| Tool | Description |
-|------|-------------|
-| `get_files_info` | List directory contents with size/type info |
-| `get_file_content` | Read a file |
-| `write_file` | Write or overwrite a file |
-| `run_python_file` | Execute a Python file with optional args |
+| Tool               | Description                                 |
+| ------------------ | ------------------------------------------- |
+| `get_files_info`   | List directory contents with size/type info |
+| `get_file_content` | Read a file                                 |
+| `write_file`       | Write or overwrite a file                   |
+| `run_python_file`  | Execute a Python file with optional args    |
+| `run_tests`        | Run all tests                               |
 
 While `call_function.py` in `/functions` is not exposed to the agent,
 it is used to dispatch commands by name,
 and injects `working_directory="./calculator"` before calling tools to ensure scoping.
 
-`calculator/` exists as code for the agent to use as a sandbox to work on top of.
+`functions/util/check_path.py` is a shared utility that validates all file paths stay within the working directory.
+
+`calculator/` exists as the code for the agent to use as a sandbox to work on top of.
