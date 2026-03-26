@@ -5,12 +5,14 @@ from functions.tools.get_files_info import get_files_info
 from functions.tools.get_file_content import get_file_content
 from functions.tools.write_file import write_file
 from functions.tools.run_python_file import run_python_file
+from functions.tools.run_tests import run_tests
 
 function_map = {
     "get_files_info"  : get_files_info,
     "get_file_content": get_file_content,
     "write_file"      : write_file,
     "run_python_file" : run_python_file,
+    "run_tests"       : run_tests,
 }
 
 def call_function(function_call: types.FunctionCall, verbose: bool = False) -> types.Content:

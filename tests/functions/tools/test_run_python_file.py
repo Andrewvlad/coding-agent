@@ -15,7 +15,7 @@ def test_run_with_args():
 
 
 def test_run_tests():
-    result = run_python_file(WORKING_DIRECTORY, "tests/calculator.py")
+    result = run_python_file(WORKING_DIRECTORY, "tests/test_calculator.py")
     assert "STDOUT" in result
 
 
